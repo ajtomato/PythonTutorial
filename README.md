@@ -28,3 +28,65 @@ One exception to the first line rule is when the source code starts with a UNIX 
 
     #!/usr/bin/env python3
     # -*- coding: cp-1252 -*-
+
+## 3. An Informal Introduction to Python
+
+Comments in Python start with the hash character, #, and extend to the end of the physical line.
+
+### 3.1. Using Python as a Calculator
+
+#### 3.1.1. Numbers
+
+Division (/) always returns a float. To do floor division and get an integer result (discarding any fractional result) you can use the (//) operator.
+
+There is full support for floating point; operators with mixed type operands convert the integer operand to floating point.
+
+With Python, it is possible to use the ** operator to calculate powers.
+
+In interactive mode, the last printed expression is assigned to the variable _. This variable should be treated as read-only by the user. Don’t explicitly assign a value to it.
+
+#### 3.1.2. Strings
+
+Strings can be enclosed in single quotes ('...') or double quotes ("...") with the same result. \ can be used to escape quotes
+
+    >>> 'doesn\'t'  # use \' to escape the single quote...
+
+If you don’t want characters prefaced by \ to be interpreted as special characters, you can use raw strings by adding an r before the first quote.
+
+String literals can span multiple lines. One way is using triple-quotes: """...""" or '''...'''. End of lines are automatically included in the string, but it’s possible to prevent this by adding a \ at the end of the line.
+
+    print("""\
+    Usage: thingy [OPTIONS]
+        -h                        Display this usage message
+        -H hostname               Hostname to connect to
+    """)
+
+Strings can be concatenated (glued together) with the + operator, and repeated with *.
+
+Two or more string literals (i.e. the ones enclosed between quotes) next to each other are automatically concatenated. This only works with two literals though, not with variables or expressions.
+
+    >>> 'Py' 'thon'
+
+Slicing is also supported. The start is always included, and the end always excluded.
+
+Python strings cannot be changed — they are immutable.
+
+The built-in function len() returns the length of a string:
+
+    >>> len(s)
+
+#### 3.1.3. Lists
+
+All slice operations on lists return a **NEW** list containing the requested elements.
+
+Lists are a mutable type, i.e. it is possible to change their content.
+
+You can also add new items at the end of the list, by using the append() method.
+
+    >>> cubes.append(216)
+
+Assignment to slices is also possible and works on the original list, and this can even change the size of the list or clear it entirely.
+
+### 3.2. First Steps Towards Programming
+
+For print, a space is inserted between items. The keyword argument _end_ can be used to avoid the newline after the output, or end the output with a different string.
