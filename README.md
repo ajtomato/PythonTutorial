@@ -112,3 +112,7 @@ If you do need to iterate over a sequence of numbers, the built-in function rang
 In many ways the object returned by range() behaves as if it is a list, but in fact it isn’t. It is an object which returns the successive items of the desired sequence when you iterate over it, but it doesn’t really make the list, thus saving space.
 
     >>> list(range(5))
+
+### 4.4. break and continue Statements, and else Clauses on Loops
+
+Loop statements may have an else clause; it is executed when the loop terminates through exhaustion of the list (with for) or when the condition becomes false (with while), but not when the loop is terminated by a break statement.
