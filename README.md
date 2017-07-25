@@ -90,3 +90,25 @@ Assignment to slices is also possible and works on the original list, and this c
 ### 3.2. First Steps Towards Programming
 
 For print, a space is inserted between items. The keyword argument _end_ can be used to avoid the newline after the output, or end the output with a different string.
+
+## 4. More Control Flow Tools
+
+### 4.1. if Statements
+
+### 4.2. for Statements
+
+Python’s for statement iterates over the items of any sequence (a list or a string), in the order that they appear in the sequence.
+
+If you need to modify the sequence you are iterating over while inside the loop (for example to duplicate selected items), it is recommended that you first make a copy. Iterating over a sequence does not implicitly make a copy. The slice notation makes this especially convenient.
+
+### 4.3. The range() Function
+
+If you do need to iterate over a sequence of numbers, the built-in function range() comes in handy.
+
+    >>> for i in range(5):
+    >>> for o in lst:
+    >>> for i, o in enumerate(lst):
+
+In many ways the object returned by range() behaves as if it is a list, but in fact it isn’t. It is an object which returns the successive items of the desired sequence when you iterate over it, but it doesn’t really make the list, thus saving space.
+
+    >>> list(range(5))
