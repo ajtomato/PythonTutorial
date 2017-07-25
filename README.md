@@ -116,3 +116,12 @@ In many ways the object returned by range() behaves as if it is a list, but in f
 ### 4.4. break and continue Statements, and else Clauses on Loops
 
 Loop statements may have an else clause; it is executed when the loop terminates through exhaustion of the list (with for) or when the condition becomes false (with while), but not when the loop is terminated by a break statement.
+
+### 4.5. pass Statements
+
+### 4.6. Defining Functions
+
+The first statement of the function body can optionally be a string literal; this string literal is the function’s documentation string, or docstring.
+
+The _return_ statement returns with a value from a function. _return_ without an expression argument returns _None_. Falling off the end of a function also returns _None_.
+

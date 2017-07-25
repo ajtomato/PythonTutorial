@@ -10,3 +10,10 @@ for i in l:
     pass
 else:
     print('Normal finish 2')
+
+
+def test():
+    """A function to test function definition."""
+    print('The global variable can be referred:', l[1])
+
+test()
