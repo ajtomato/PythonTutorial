@@ -336,3 +336,90 @@ The operators _is_ and _is not_ compare whether two objects are really the same 
 ### 5.8. Comparing Sequences and Other Types
 
 Sequence objects may be compared to other objects with the same sequence type. The comparison uses lexicographical ordering: first the first two items are compared, and if they differ this determines the outcome of the comparison; if they are equal, the next two items are compared, and so on, until either sequence is exhausted. If two items to be compared are themselves sequences of the same type, the lexicographical comparison is carried out recursively. If all items of two sequences compare equal, the sequences are considered equal. If one sequence is an initial sub-sequence of the other, the shorter sequence is the smaller (lesser) one.
+
+## 6. Modules
+
+A module is a file containing Python definitions and statements. The file name is the module name with the suffix .py appended.
+
+Within a module, the module’s name (as a string) is available as the value of the global variable _\_\_name___.
+
+The simple _import_ statement does not enter the names of the functions defined in the module directly in the current symbol table; it only enters the module name there. Using the module name you can access the functions:
+
+    >>> import tutorial
+    >>> print(tutorial.l)
+
+### 6.1. More on Modules
+
+A module can contain executable statements as well as function definitions. These statements are intended to initialize the module. They are executed only the first time the module name is encountered in an import statement.
+
+Each module has its own private symbol table, which is used as the global symbol table by all functions defined in the module. Thus, the author of a module can use global variables in the module without worrying about accidental clashes with a user’s global variables. On the other hand, if you know what you are doing you can touch a module’s global variables with the same notation used to refer to its functions, modname.itemname.
+
+There is a variant of the import statement that imports names from a module directly into the importing module’s symbol table.
+
+    >>> from fibo import fib, fib2
+    >>> fib(500)
+
+#### 6.1.1. Executing modules as scripts
+
+When you run a Python module with
+
+    python fibo.py <arguments>
+
+the code in the module will be executed, just as if you imported it, but with the _\_\_name___ set to "_\_\_main___". That means that by adding this code at the end of your module:
+
+    if __name__ == "__main__":
+        pass
+
+#### 6.1.2. The Module Search Path
+
+When a module named spam is imported, the interpreter first searches for a built-in module with that name. If not found, it then searches for a file named spam.py in a list of directories given by the variable sys.path. sys.path is initialized from these locations:
+
+* The directory containing the input script (or the current directory when no file is specified).
+* PYTHONPATH (a list of directory names, with the same syntax as the shell variable PATH).
+* The installation-dependent default.
+
+On file systems which support symlinks, the directory containing the input script is calculated after the symlink is followed. In other words the directory containing the symlink is not added to the module search path.
+
+After initialization, Python programs can modify sys.path. The directory containing the script being run is placed at the beginning of the search path, ahead of the standard library path. This means that scripts in that directory will be loaded instead of modules of the same name in the library directory. 
+
+#### 6.1.3. “Compiled” Python files
+
+To speed up loading modules, Python caches the compiled version of each module in the _\_\_pycache___ directory under the name module.version.pyc, where the version encodes the format of the compiled file; it generally contains the Python version number.
+
+### 6.2. Standard Modules
+
+### 6.3. The dir() Function
+
+### 6.4. Packages
+
+The _\_\_init___.py files are required to make Python treat the directories as containing packages; this is done to prevent directories with a common name, such as string, from unintentionally hiding valid modules that occur later on the module search path.
+
+When using _from package import item_, the _item_ can be either a submodule (or subpackage) of the package, or some other name defined in the package, like a function, class or variable.
+
+When using syntax like import item.subitem.subsubitem, each item except for the last must be a package; the last item can be a module or a package but can’t be a class or function or variable defined in the previous item.
+
+    >>> import sound.effects.echo
+    >>> sound.effects.echo.echofilter(input, output, delay=0.7, atten=4)
+
+    >>> from sound.effects import echo
+    >>> echo.echofilter(input, output, delay=0.7, atten=4)
+
+#### 6.4.1. Importing * From a Package
+
+The import statement uses the following convention: if a package’s _\_\_init___.py code defines a list named _\_\_all___, it is taken to be the list of module names that should be imported when from package import * is encountered.
+
+    __all__ = ["echo", "surround", "reverse"]
+
+#### 6.4.2. Intra-package References
+
+When packages are structured into subpackages, you can use absolute imports to refer to submodules of siblings packages.
+
+You can also write relative imports, with the from module import name form of import statement. These imports use leading dots to indicate the current and parent packages involved in the relative import.
+
+    >>> from . import echo                  # The same module
+    >>> from .. import formats              # The parent module
+    >>> from ..filters import equalizer     # The sibling module.
+
+Note that relative imports are based on the name of the current module. Since the name of the main module is always "__main__", modules intended for use as the main module of a Python application must always use absolute imports.
+
+#### 6.4.3. Packages in Multiple Directories
