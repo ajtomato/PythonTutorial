@@ -125,3 +125,84 @@ The first statement of the function body can optionally be a string literal; thi
 
 The _return_ statement returns with a value from a function. _return_ without an expression argument returns _None_. Falling off the end of a function also returns _None_.
 
+### 4.7. More on Defining Functions
+
+#### 4.7.1. Default Argument Values
+
+The default value is evaluated only once. This makes a difference when the default is a mutable object such as a list, dictionary, or instances of most classes.
+
+    def f(a, L=[]):
+        L.append(a)
+        return L
+    print(f(1))
+    print(f(2))
+    print(f(3))
+
+The _in_ keyword tests whether or not a sequence contains a certain value.
+
+    if ok in ('n', 'no', 'nop', 'nope'):
+        return False
+
+#### 4.7.2. Keyword Arguments
+
+In a function call, keyword arguments must follow positional arguments.
+
+#### 4.7.3. Arbitrary Argument Lists
+
+These arguments will be wrapped up in a tuple. Before the variable number of arguments, zero or more normal arguments may occur.
+
+When a final formal parameter of the form **name is present, it receives a dictionary containing all keyword arguments except for those corresponding to a formal parameter.
+
+    def cheeseshop(kind, *arguments, **keywords):
+        print("-- Do you have any", kind, "?")
+        print("-- I'm sorry, we're all out of", kind)
+        for arg in arguments:
+            print(arg)
+        print("-" * 40)
+        for kw in keywords:
+            print(kw, ":", keywords[kw])
+
+    cheeseshop("Limburger", "It's very runny, sir.",
+           "It's really very, VERY runny, sir.",
+           shopkeeper="Michael Palin",
+           client="John Cleese",
+           sketch="Cheese Shop Sketch")
+
+#### 4.7.4. Unpacking Argument Lists
+
+The reverse situation occurs when the arguments are already in a list or tuple but need to be unpacked for a function call requiring separate positional arguments. If they are not available separately, write the function call with the *-operator to unpack the arguments out of a list or tuple. In the same fashion, dictionaries can deliver keyword arguments with the **-operator.
+
+    >>> args = [3, 6]
+    >>> list(range(*args))            # call with arguments unpacked from a list
+    >>> d = {"voltage": "four million", "state": "bleedin' demised", "action": "VOOM"}
+    >>> parrot(**d)
+
+#### 4.7.5. Lambda Expressions
+
+Small anonymous functions can be created with the lambda keyword. This function returns the sum of its two arguments: lambda a, b: a+b.
+
+Like nested function definitions, lambda functions can reference variables from the containing scope:
+
+    >>> def make_incrementor(n):
+    ...     return lambda x: x + n
+    ...
+    >>> f = make_incrementor(42)
+    >>> f(0)
+    42
+    >>> f(1)
+    43
+
+#### 4.7.6. Documentation Strings
+
+The first line should always be a short, concise summary of the object’s purpose. This line should begin with a capital letter and end with a period.
+
+If there are more lines in the documentation string, the second line should be blank, visually separating the summary from the rest of the description. The following lines should be one or more paragraphs describing the object’s calling conventions, its side effects, etc.
+
+#### 4.7.7. Function Annotations
+
+ Parameter annotations are defined by a colon after the parameter name, followed by an expression evaluating to the value of the annotation. Return annotations are defined by a literal ->, followed by an expression, between the parameter list and the colon denoting the end of the def statement.
+
+    >>> def f(ham: str, eggs: str = 'eggs') -> str:
+
+### 4.8. Intermezzo: Coding Style
+
