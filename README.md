@@ -206,3 +206,133 @@ If there are more lines in the documentation string, the second line should be b
 
 ### 4.8. Intermezzo: Coding Style
 
+## 5. Data Structures
+
+### 5.1. More on Lists
+
+#### 5.1.1. Using Lists as Stacks
+
+    >>> stack = [3, 4, 5]
+    >>> stack.append(6)
+    >>> stack.pop()
+
+#### 5.1.2. Using Lists as Queues
+
+Lists are not efficient for this purpose. To implement a queue, use collections.deque which was designed to have fast appends and pops from both ends.
+
+    >>> from collections import deque
+    >>> queue = deque(["Eric", "John", "Michael"])
+    >>> queue.append("Terry")
+    >>> queue.popleft()
+
+#### 5.1.3. List Comprehensions
+
+List comprehensions provide a concise way to create lists.
+
+    >>> squares = list(map(lambda x: x**2, range(10)))
+    >>> squares = [x**2 for x in range(10)]
+
+A list comprehension consists of brackets containing an expression followed by a for clause, then zero or more for or if clauses. The result will be a new list resulting from evaluating the expression in the context of the for and if clauses which follow it. If the expression is a tuple (e.g. the (x, y) in the previous example), it must be parenthesized.
+
+    >>> [(x, y) for x in [1,2,3] for y in [3,1,4] if x != y]
+
+#### 5.1.4. Nested List Comprehensions
+
+### 5.2. The del statement
+
+There is a way to remove an item from a list given its index instead of its value: the del statement.
+
+    >>> a = [-1, 1, 66.25, 333, 333, 1234.5]
+    >>> del a[0]
+    >>> del a[2:4]
+    >>> del a[:]
+    >>> del a
+
+### 5.3. Tuples and Sequences
+
+Tuples are immutable, and usually contain a heterogeneous sequence of elements that are accessed via unpacking or indexing (or even by attribute in the case of _namedtuples_). Lists are mutable, and their elements are usually homogeneous and are accessed by iterating over the list.
+
+Empty tuples are constructed by an empty pair of parentheses; a tuple with one item is constructed by following a value with a comma (it is not sufficient to enclose a single value in parentheses).
+
+The statement t = 12345, 54321, 'hello!' is an example of tuple packing: the values 12345, 54321 and 'hello!' are packed together in a tuple. The reverse operation is also possible:
+
+    >>> x, y, z = t
+
+This is called, appropriately enough, sequence unpacking and works for any sequence on the right-hand side.
+
+### 5.4. Sets
+
+A set is an unordered collection with no duplicate elements.
+
+Curly braces or the set() function can be used to create sets. Note: to create an empty set you have to use set(), not {}; the latter creates an empty dictionary.
+
+    >>> basket = {'apple', 'orange', 'apple', 'pear', 'orange', 'banana'}
+    >>> 'orange' in basket
+    >>> a = set('abracadabra')
+    >>> b = set('alacazam')
+    >>> a - b
+    >>> a | b
+    >>> a & b
+    >>> a ^ b
+
+Set comprehensions are also supported.
+
+    >>> a = {x for x in 'abracadabra' if x not in 'abc'}
+
+### 5.5. Dictionaries
+
+Dictionaries are indexed by keys, which can be any immutable type. If a tuple contains any mutable object either directly or indirectly, it cannot be used as a key.
+
+    >>> tel = {'jack': 4098, 'sape': 4139}
+    >>> tel['guido'] = 4127
+    >>> del tel['sape']
+    >>> list(tel.keys())
+    >>> 'guido' in tel
+
+The dict() constructor builds dictionaries directly from sequences of key-value pairs:
+
+    >>> dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+
+When the keys are simple strings, it is sometimes easier to specify pairs using keyword arguments:
+
+    >>> dict(sape=4139, guido=4127, jack=4098)
+
+In addition, dict comprehensions can be used to create dictionaries from arbitrary key and value expressions:
+
+    >>> {x: x**2 for x in (2, 4, 6)}
+
+### 5.6. Looping Techniques
+
+When looping through dictionaries, the key and corresponding value can be retrieved at the same time using the items() method.
+
+    >>> knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+    >>> for k, v in knights.items():
+
+When looping through a sequence, the position index and corresponding value can be retrieved at the same time using the enumerate() function.
+
+    >>> for i, v in enumerate(['tic', 'tac', 'toe']):
+
+To loop over two or more sequences at the same time, the entries can be paired with the zip() function.
+
+    >>> questions = ['name', 'quest', 'favorite color']
+    >>> answers = ['lancelot', 'the holy grail', 'blue']
+    >>> for q, a in zip(questions, answers):
+
+To loop over a sequence in reverse, first specify the sequence in a forward direction and then call the reversed() function.
+
+    >>> for i in reversed(range(1, 10, 2)):
+
+To loop over a sequence in sorted order, use the sorted() function which returns a new sorted list while leaving the source unaltered.
+
+    >>> basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+    >>> for f in sorted(set(basket)):
+
+### 5.7. More on Conditions
+
+The comparison operators _in_ and _not in_ check whether a value occurs (does not occur) in a sequence.
+
+The operators _is_ and _is not_ compare whether two objects are really the same object; this only matters for mutable objects like lists.
+
+### 5.8. Comparing Sequences and Other Types
+
+Sequence objects may be compared to other objects with the same sequence type. The comparison uses lexicographical ordering: first the first two items are compared, and if they differ this determines the outcome of the comparison; if they are equal, the next two items are compared, and so on, until either sequence is exhausted. If two items to be compared are themselves sequences of the same type, the lexicographical comparison is carried out recursively. If all items of two sequences compare equal, the sequences are considered equal. If one sequence is an initial sub-sequence of the other, the shorter sequence is the smaller (lesser) one.
