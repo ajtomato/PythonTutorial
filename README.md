@@ -423,3 +423,76 @@ You can also write relative imports, with the from module import name form of im
 Note that relative imports are based on the name of the current module. Since the name of the main module is always "__main__", modules intended for use as the main module of a Python application must always use absolute imports.
 
 #### 6.4.3. Packages in Multiple Directories
+
+## 7. Input and Output
+
+### 7.1. Fancier Output Formatting
+
+The str() function is meant to return representations of values which are fairly human-readable, while repr() is meant to generate representations which can be read by the interpreter.
+
+Basic usage of the str.format() method looks like this.
+
+    >>> print('We are the {} who say "{}!"'.format('knights', 'Ni'))
+    We are the knights who say "Ni!"
+    >>> print('{0} and {1}'.format('spam', 'eggs'))
+    spam and eggs
+    >>> print('{1} and {0}'.format('spam', 'eggs'))
+    eggs and spam
+    >>> print('This {food} is {adjective}.'.format(food='spam', adjective='absolutely horrible'))
+    This spam is absolutely horrible.
+
+An optional ':' and format specifier can follow the field name.
+
+    >>> print('The value of PI is approximately {0:.3f}.'.format(math.pi))
+
+Passing an integer after the ':' will cause that field to be a minimum number of characters wide.
+
+    >>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
+    >>> for name, phone in table.items():
+    ...     print('{0:10} ==> {1:10d}'.format(name, phone))
+
+If you have a really long format string that you don’t want to split up, it would be nice if you could reference the variables to be formatted by name instead of by position. This can be done by simply passing the dict and using square brackets '[]' to access the keys.
+
+    >>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+    >>> print('Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; '
+    ...       'Dcab: {0[Dcab]:d}'.format(table))
+    Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+    >>> print('Jack: {Jack:d}; Sjoerd: {Sjoerd:d}; Dcab: {Dcab:d}'.format(**table))
+    Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+
+This is particularly useful in combination with the built-in function _vars()_, which returns a dictionary containing all local variables.
+
+#### 7.1.1. Old string formatting
+
+### 7.2. Reading and Writing Files
+
+It is good practice to use the _with_ keyword when dealing with file objects. The advantage is that the file is properly closed after its suite finishes, even if an exception is raised at some point. Using _with_ is also much shorter than writing equivalent try-finally blocks.
+
+    >>> with open('workfile') as f:
+    ...     read_data = f.read()
+    >>> f.closed                    # Double check whether the file is closed.
+
+Normally, files are opened in text mode, that means, you read and write strings from and to the file, which are encoded in a specific encoding. If encoding is not specified, the default is platform dependent (see _open()_).
+
+In text mode, the default when reading is to convert platform-specific line endings (\n on Unix, \r\n on Windows) to just \n. When writing in text mode, the default is to convert occurrences of \n back to platform-specific line endings.
+
+#### 7.2.1. Methods of File Objects
+
+If the end of the file has been reached, _f.read()_ will return an empty string ('').
+
+_f.readline()_ reads a single line from the file; a newline character (\n) is left at the end of the string, and is only omitted on the last line of the file if the file doesn’t end in a newline. If _f.readline()_ returns an empty string, the end of the file has been reached.
+
+For reading lines from a file, you can loop over the file object. This is memory efficient, fast, and leads to simple code:
+
+    >>> for line in f:
+    ...     print(line, end='')
+
+If you want to read all the lines of a file in a list you can also use list(f) or f.readlines().
+
+#### 7.2.2. Saving structured data with json
+
+    >>> import json
+    >>> json.dumps([1, 'simple', 'list'])
+    '[1, "simple", "list"]'
+    >>> json.dump(x, f)
+    >>> x = json.load(f)
