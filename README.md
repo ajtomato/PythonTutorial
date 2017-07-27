@@ -496,3 +496,45 @@ If you want to read all the lines of a file in a list you can also use list(f) o
     '[1, "simple", "list"]'
     >>> json.dump(x, f)
     >>> x = json.load(f)
+
+## 8. Errors and Exceptions
+
+### 8.1. Syntax Errors
+
+### 8.2. Exceptions
+
+### 8.3. Handling Exceptions
+
+    >>> try:
+    ...     raise Exception('spam', 'eggs')
+    >>> except ExceptionType [as err]:
+    ...     x, y = err.args
+    >>> except (ExceptionType1, ExceptionType2, ..., ExceptionTypeN):
+    ...     pass
+    >>> except:
+    ...     raise
+    >>> else:
+    ...     pass    # It is useful for code that must be executed if the try clause does not raise an exception.
+
+The except clause may specify a variable after the exception name. The variable is bound to an exception instance with the arguments stored in instance.args.
+
+### 8.4. Raising Exceptions
+
+### 8.5. User-defined Exceptions
+
+### 8.6. Defining Clean-up Actions
+
+A _finally_ clause is always executed before leaving the _try_ statement, whether an exception has occurred or not.
+
+    >>> try:
+    ...     raise KeyboardInterrupt
+    ... finally:
+    ...     print('Goodbye, world!')
+
+The _finally_ clause is also executed “on the way out” when any other clause of the _try_ statement is left via a _break_, _continue_ or _return_ statement.
+
+In real world applications, the _finally_ clause is useful for releasing external resources (such as files or network connections), regardless of whether the use of the resource was successful.
+
+### 8.7. Predefined Clean-up Actions
+
+Some objects define standard clean-up actions to be undertaken when the object is no longer needed, regardless of whether or not the operation using the object succeeded or failed. The _with_ statement allows objects like files to be used in a way that ensures they are always cleaned up promptly and correctly.
