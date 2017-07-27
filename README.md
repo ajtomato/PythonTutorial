@@ -538,3 +538,15 @@ In real world applications, the _finally_ clause is useful for releasing externa
 ### 8.7. Predefined Clean-up Actions
 
 Some objects define standard clean-up actions to be undertaken when the object is no longer needed, regardless of whether or not the operation using the object succeeded or failed. The _with_ statement allows objects like files to be used in a way that ensures they are always cleaned up promptly and correctly.
+
+## 9. Classes
+
+### 9.1. A Word About Names and Objects
+
+### 9.2. Python Scopes and Namespaces
+
+The _nonlocal_ statement causes the listed identifiers to refer to previously bound variables in the nearest enclosing scope excluding globals.
+
+The _global_ statement is a **declaration** which holds for the entire current code block.
+
+#### 9.2.1. Scopes and Namespaces Example
