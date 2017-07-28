@@ -783,3 +783,9 @@ Template subclasses can specify a custom _delimiter_.
 ### 11.3. Working with Binary Data Record Layouts
 
 The _struct_ module provides _pack()_ and _unpack()_ functions for working with variable length binary record formats.
+
+### 11.4. Multi-threading
+
+The high level _threading_ module can run tasks in background.
+
+So, the **preferred approach** to task coordination is to concentrate all access to a resource in a single thread and then use the _queue_ module to feed that thread with requests from other threads. Applications using _Queue_ objects for inter-thread communication and coordination are easier to design, more readable, and more reliable.

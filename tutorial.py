@@ -1,3 +1,7 @@
+import queue
+import time
+import threading
+
 l = [1, 2, 3]
 
 for i in l:
@@ -60,3 +64,33 @@ class MyClass:
 myClass = MyClass('Hello')
 myClass.f()
 print(MyClass.i)
+
+
+def worker():
+    while True:
+        item = q.get()
+        if item is None:
+            break
+        time.sleep(3)
+        print(item)
+        q.task_done()
+
+q = queue.Queue()
+threads = []
+num_worker_threads = 3
+for i in range(num_worker_threads):
+    t = threading.Thread(target = worker)
+    t.start()
+    threads.append(t)
+
+for i in range(10):
+    q.put(i)
+
+# block until all tasks are done
+q.join()
+
+# stop workers
+for i in range(num_worker_threads):
+    q.put(None)
+for t in threads:
+    t.join()
