@@ -44,3 +44,19 @@ def scope_test():
 
 scope_test()
 print("In global scope:", spam)
+
+
+class MyClass:
+
+    i = 1       # class variable shared by all instances
+
+    def __init__(self, s):
+        print('MyClass.__init__(self, {})'.format(s))
+
+    def f(self):
+        self._i = self.i
+        print('Hello world', self.i, self._i)        # class variable must be referenced by self.
+
+myClass = MyClass('Hello')
+myClass.f()
+print(MyClass.i)

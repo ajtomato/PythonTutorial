@@ -550,3 +550,90 @@ The _nonlocal_ statement causes the listed identifiers to refer to previously bo
 The _global_ statement is a **declaration** which holds for the entire current code block.
 
 #### 9.2.1. Scopes and Namespaces Example
+
+### 9.3. A First Look at Classes
+
+#### 9.3.1. Class Definition Syntax
+
+#### 9.3.2. Class Objects
+
+Class objects support two kinds of operations: attribute references and instantiation.
+
+Attribute references use the standard syntax used for all attribute references in Python: obj.name. Valid attribute names are all the names that were in the class’s namespace when the class object was created.
+
+Class instantiation uses function notation. Just pretend that the class object is a parameterless function that returns a new instance of the class.
+
+The instantiation operation (“calling” a class object) creates an empty object.
+
+#### 9.3.3. Instance Objects
+
+The only operations understood by instance objects are attribute references. There are two kinds of valid attribute names, data attributes and methods.
+
+Data attributes need not be declared; like local variables, they spring into existence when they are first assigned to.
+
+By definition, all attributes of a class that are **function objects** define corresponding **methods** of its instances.
+
+#### 9.3.4. Method Objects
+
+When an instance attribute is referenced that isn’t a data attribute, its class is searched. If the name denotes a valid class attribute that is a function object, a method object is created by packing (pointers to) the instance object and the function object just found together in an abstract object: **this is the method object**. When the method object is called with an argument list, a new argument list is constructed from the instance object and the argument list, and the function object is called with this new argument list.
+
+#### 9.3.5. Class and Instance Variables
+
+Generally speaking, instance variables are for data unique to each instance and class variables are for attributes and methods shared by all instances of the class.
+
+### 9.4. Random Remarks
+
+Data attributes override method attributes with the same name; to avoid accidental name conflicts, which may cause hard-to-find bugs in large programs, it is wise to use some kind of convention that minimizes the chance of conflicts. Possible conventions include capitalizing method names, prefixing data attribute names with a small unique string (perhaps just an underscore), or using verbs for methods and nouns for data attributes.
+
+Any function object that is a class attribute defines a method for instances of that class. It is not necessary that the function definition is textually enclosed in the class definition: assigning a function object to a local variable in the class is also ok.
+
+    # Function defined outside the class
+    def f1(self, x, y):
+        return min(x, x+y)
+
+    class C:
+        f = f1
+
+Methods may call other methods by using method attributes of the _self_ argument.
+
+### 9.5. Inheritance
+
+    class DerivedClassName(BaseClassName):
+
+Execution of a derived class definition proceeds the same as for a base class. When the class object is constructed, the base class is remembered. This is used for resolving attribute references: if a requested attribute is not found in the class, the search proceeds to look in the base class. This rule is applied recursively if the base class itself is derived from some other class.
+
+Derived classes may override methods of their base classes. Because methods have no special privileges when calling other methods of the same object, a method of a base class that calls another method defined in the same base class may end up calling a method of a derived class that overrides it.
+
+An overriding method in a derived class may in fact want to extend rather than simply replace the base class method of the same name. There is a simple way to call the base class method directly: just call _BaseClassName.methodname(self, arguments)_.
+
+#### 9.5.1. Multiple Inheritance
+
+    class DerivedClassName(Base1, Base2, Base3):
+
+For most purposes, in the simplest cases, you can think of the search for attributes inherited from a parent class as depth-first, left-to-right, not searching twice in the same class where there is an overlap in the hierarchy.
+
+### 9.6. Private Variables
+
+“Private” instance variables that cannot be accessed except from inside an object don’t exist in Python. However, there is a convention that is followed by most Python code: a name prefixed with an underscore (e.g. _spam) should be treated as a non-public part of the API (whether it is a function, a method or a data member).
+
+Name mangling: any identifier of the form \_\_spam (at least two leading underscores, at most one trailing underscore) is textually replaced with _classname__spam, where classname is the current class name with leading underscore(s) stripped. This mangling is done without regard to the syntactic position of the identifier, as long as it occurs within the definition of a class.
+
+Name mangling is helpful for letting subclasses override methods without breaking intraclass method calls.
+
+### 9.7. Odds and Ends
+
+### 9.8. Iterators
+
+The for statement calls _iter()_ on the container object. The function returns an iterator object that defines the method _\_\_next\_\_()_ which accesses elements in the container one at a time. When there are no more elements, _\_\_next\_\_()_ raises a _StopIteration_ exception which tells the for loop to terminate.
+
+### 9.9. Generators
+
+Generators are a simple and powerful tool for creating iterators. They are written like regular functions but use the _yield_ statement whenever they want to return data. Each time next() is called on it, the generator resumes where it left off (it remembers all the data values and which statement was last executed).
+
+    def reverse(data):
+        for index in range(len(data)-1, -1, -1):
+            yield data[index]
+
+### 9.10. Generator Expressions
+
+Some simple generators can be coded succinctly as expressions using a syntax similar to list comprehensions but with parentheses instead of brackets.
