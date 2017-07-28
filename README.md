@@ -637,3 +637,117 @@ Generators are a simple and powerful tool for creating iterators. They are writt
 ### 9.10. Generator Expressions
 
 Some simple generators can be coded succinctly as expressions using a syntax similar to list comprehensions but with parentheses instead of brackets.
+
+## 10. Brief Tour of the Standard Library
+
+### 10.1. Operating System Interface
+
+The _os_ module provides dozens of functions for interacting with the operating system.
+
+For daily file and directory management tasks, the _shutil_ module provides a higher level interface that is easier to use.
+
+### 10.2. File Wildcards
+
+The _glob_ module provides a function for making file lists from directory wildcard searches.
+
+### 10.3. Command Line Arguments
+
+    >>> import sys
+    >>> print(sys.argv)
+
+The _getopt_ module processes _sys.argv_ using the conventions of the Unix getopt() function. More powerful and flexible command line processing is provided by the _argparse_ module.
+
+### 10.4. Error Output Redirection and Program Termination
+
+The _sys_ module also has attributes for _stdin_, _stdout_, and _stderr_.
+
+    >>> sys.stderr.write('Warning, log file not found starting a new one\n')
+
+The most direct way to terminate a script is to use _sys.exit()_.
+
+### 10.5. String Pattern Matching
+
+The _re_ module provides regular expression tools for advanced string processing.
+
+When only simple capabilities are needed, string methods are preferred because they are easier to read and debug.
+
+### 10.6. Mathematics
+
+The _math_ module gives access to the underlying C library functions for floating point math.
+
+The _random_ module provides tools for making random selections.
+
+The _statistics_ module calculates basic statistical properties (the mean, median, variance, etc.) of numeric data.
+
+The SciPy project <https://scipy.org> has many other modules for numerical computations.
+
+### 10.7. Internet Access
+
+Two of the simplest are _urllib.request_ for retrieving data from URLs and _smtplib_ for sending mail.
+
+    >>> from urllib.request import urlopen
+    >>> with urlopen('http://tycho.usno.navy.mil/cgi-bin/timer.pl') as response:
+    ...     for line in response:
+    ...         line = line.decode('utf-8')  # Decoding the binary data to text.
+    ...         if 'EST' in line or 'EDT' in line:  # look for Eastern Time
+    ...             print(line)
+
+    <BR>Nov. 25, 09:43:32 PM EST
+
+    >>> import smtplib
+    >>> server = smtplib.SMTP('localhost')
+    >>> server.sendmail('soothsayer@example.org', 'jcaesar@example.org',
+    ... """To: jcaesar@example.org
+    ... From: soothsayer@example.org
+    ...
+    ... Beware the Ides of March.
+    ... """)
+    >>> server.quit()
+
+### 10.8. Dates and Times
+
+The _datetime_ module supplies classes for manipulating dates and times in both simple and complex ways.
+
+### 10.9. Data Compression
+
+Common data archiving and compression formats are directly supported by modules including: _zlib_, _gzip_, _bz2_, _lzma_, _zipfile_ and _tarfile_.
+
+### 10.10. Performance Measurement
+
+The _timeit_ module quickly demonstrates a modest performance advantage.
+
+In contrast to _timeit_‘s fine level of granularity, the _profile_ and _pstats_ modules provide tools for identifying time critical sections in larger blocks of code.
+
+### 10.11. Quality Control
+
+The _doctest_ module provides a tool for scanning a module and validating tests embedded in a program’s docstrings.
+
+    def average(values):
+        """Computes the arithmetic mean of a list of numbers.
+
+        >>> print(average([20, 30, 70]))
+        40.0
+        """
+        return sum(values) / len(values)
+
+    import doctest
+    doctest.testmod()   # automatically validate the embedded tests
+
+The _unittest_ module is not as effortless as the doctest module, but it allows a more comprehensive set of tests to be maintained in a separate file.
+
+    import unittest
+
+    class TestStatisticalFunctions(unittest.TestCase):
+
+        def test_average(self):
+            self.assertEqual(average([20, 30, 70]), 40.0)
+            self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+            with self.assertRaises(ZeroDivisionError):
+                average([])
+            with self.assertRaises(TypeError):
+                average(20, 30, 70)
+
+    unittest.main()  # Calling from the command line invokes all tests
+
+### 10.12. Batteries Included
+
