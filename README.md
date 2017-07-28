@@ -751,3 +751,35 @@ The _unittest_ module is not as effortless as the doctest module, but it allows 
 
 ### 10.12. Batteries Included
 
+## 11. Brief Tour of the Standard Library — Part II
+
+### 11.1. Output Formatting
+
+The _reprlib_ module provides a version of _repr()_ customized for abbreviated displays of large or deeply nested containers.
+
+The _pprint_ module offers more sophisticated control over printing both built-in and user defined objects in a way that is readable by the interpreter.
+
+The _textwrap_ module formats paragraphs of text to fit a given screen width.
+
+The _locale_ module accesses a database of culture specific data formats.
+
+### 11.2. Templating
+
+The _string_ module includes a versatile _Template_ class with a simplified syntax suitable for editing by end-users.
+
+The format uses placeholder names formed by $ with valid Python identifiers (alphanumeric characters and underscores). Surrounding the placeholder with braces allows it to be followed by more alphanumeric letters with no intervening spaces. Writing $$ creates a single escaped $.
+
+    >>> t = Template('Return the $item to $owner.')
+    >>> d = dict(item='unladen swallow')
+    >>> t.substitute(d)
+    Traceback (most recent call last):
+    ...
+    KeyError: 'owner'
+    >>> t.safe_substitute(d)
+    'Return the unladen swallow to $owner.'
+
+Template subclasses can specify a custom _delimiter_.
+
+### 11.3. Working with Binary Data Record Layouts
+
+The _struct_ module provides _pack()_ and _unpack()_ functions for working with variable length binary record formats.
