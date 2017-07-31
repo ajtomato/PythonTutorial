@@ -789,3 +789,67 @@ The _struct_ module provides _pack()_ and _unpack()_ functions for working with 
 The high level _threading_ module can run tasks in background.
 
 So, the **preferred approach** to task coordination is to concentrate all access to a resource in a single thread and then use the _queue_ module to feed that thread with requests from other threads. Applications using _Queue_ objects for inter-thread communication and coordination are easier to design, more readable, and more reliable.
+
+### 11.5. Logging
+
+    import logging
+    logging.debug('Debugging information')
+    logging.info('Informational message')
+    logging.warning('Warning:config file %s not found', 'server.conf')
+    logging.error('Error occurred')
+    logging.critical('Critical error -- shutting down')
+
+By default, informational and debugging messages are suppressed and the output is sent to standard error. Other output options include routing messages through email, datagrams, sockets, or to an HTTP Server. New filters can select different routing based on message priority: DEBUG, INFO, WARNING, ERROR, and CRITICAL.
+
+The logging system can be configured directly from Python or can be loaded from a user editable configuration file for customized logging without altering the application.
+
+### 11.6. Weak References
+
+The _weakref_ module provides tools for tracking objects without creating a reference. When the object is no longer needed, it is automatically removed from a weakref table and a callback is triggered for weakref objects.
+
+    >>> import weakref
+    >>> a = A(10)                   # create a reference
+    >>> d = weakref.WeakValueDictionary()
+    >>> d['primary'] = a            # does not create a reference
+    >>> d['primary']                # fetch the object if it is still alive
+
+
+### 11.7. Tools for Working with Lists
+
+The _array_ module provides an array() object that is like a list that stores only homogeneous data and stores it more compactly.
+
+    >>> from array import array
+    >>> a = array('H', [4000, 10, 700, 22222])
+
+The _collections_ module provides a _deque()_ object that is like a list with faster appends and pops from the left side but slower lookups in the middle.
+
+    >>> from collections import deque
+    >>> d = deque(["task1", "task2", "task3"])
+    >>> d.append("task4")
+    >>> print("Handling", d.popleft())
+
+The _bisect_ module with functions for manipulating sorted lists.
+
+    >>> import bisect
+    >>> scores = [(100, 'perl'), (200, 'tcl'), (400, 'lua'), (500, 'python')]
+    >>> bisect.insort(scores, (300, 'ruby'))
+
+The _heapq_ module provides functions for implementing heaps based on regular lists. The lowest valued entry is always kept at position zero.
+
+    >>> from heapq import heapify, heappop, heappush
+    >>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+    >>> heapify(data)                      # rearrange the list into heap order
+    >>> heappush(data, -5)                 # add a new entry
+    >>> [heappop(data) for i in range(3)]  # fetch the three smallest entries
+
+### 11.8. Decimal Floating Point Arithmetic
+
+The _decimal_ module offers a _Decimal_ datatype for decimal floating point arithmetic. Compared to the built-in _float_ implementation of binary floating point, the class is especially helpful for:
+
+* financial applications and other uses which require exact decimal representation,
+* control over precision,
+* control over rounding to meet legal or regulatory requirements,
+* tracking of significant decimal places, or
+* applications where the user expects the results to match calculations done by hand.
+
+The _decimal_ module provides arithmetic with as much precision as needed.
