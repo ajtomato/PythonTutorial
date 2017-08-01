@@ -906,3 +906,10 @@ _pip list_ will display all of the packages installed in the virtual environment
 _pip freeze_ will produce a similar list of the installed packages, but the output uses the format that pip install expects. A common convention is to put this list in a _requirements.txt_ file. The _requirements.txt_ can then be committed to version control and shipped as part of an application. Users can then install all the necessary packages with install -r.
 
     $ pip install -r requirements.txt
+
+## 13. What Now?
+
+## 14. Interactive Input Editing and History Substitution
+
+## 15. Floating Point Arithmetic: Issues and Limitations
+
