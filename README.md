@@ -853,3 +853,56 @@ The _decimal_ module offers a _Decimal_ datatype for decimal floating point arit
 * applications where the user expects the results to match calculations done by hand.
 
 The _decimal_ module provides arithmetic with as much precision as needed.
+
+## 12. Virtual Environments and Packages
+
+### 12.1. Introduction
+
+A virtual environment is a self-contained directory tree that contains a Python installation for a particular version of Python, plus a number of additional packages.
+
+Different applications can then use different virtual environments.
+
+### 12.2. Creating Virtual Environments
+
+The module used to create and manage virtual environments is called _venv_.
+
+To create a virtual environment, decide upon a directory where you want to place it, and run the _venv_ module as a script with the directory path:
+
+    python -m venv tutorial-env
+
+This will create the tutorial-env directory if it doesn’t exist, and also create directories inside it containing a copy of the Python interpreter, the standard library, and various supporting files.
+
+Once you’ve created a virtual environment, you may activate it.
+
+On Windows, run:
+
+    tutorial-env\Scripts\activate.bat
+
+On Unix or MacOS, run:
+
+    source tutorial-env/bin/activate
+
+### 12.3. Managing Packages with pip
+
+You can install the latest version of a package by specifying a package’s name.
+
+    $ pip install novas
+
+You can also install a specific version of a package by giving the package name followed by == and the version number.
+
+    $ pip install requests==2.6.0
+    $ pip install --upgrade requests    # Upgrade to the latest version
+
+_pip uninstall_ followed by one or more package names will remove the packages from the virtual environment.
+
+_pip show_ will display information about a particular package.
+
+    $ pip show requests
+
+_pip list_ will display all of the packages installed in the virtual environment.
+
+    $ pip list
+
+_pip freeze_ will produce a similar list of the installed packages, but the output uses the format that pip install expects. A common convention is to put this list in a _requirements.txt_ file. The _requirements.txt_ can then be committed to version control and shipped as part of an application. Users can then install all the necessary packages with install -r.
+
+    $ pip install -r requirements.txt
